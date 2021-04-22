@@ -13,7 +13,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Tanguy Chennaux
+          Tanguy Chennaux Website coming soon!!!
         </a>
       </header>
     </div>
