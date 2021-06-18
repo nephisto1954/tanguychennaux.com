@@ -138,7 +138,6 @@ function Scene(){
     <mesh position={[0, 0, 0]} ref={mesh} castShadow
     receiveShadow>
         <LowPoly />
-        {/* <Lake /> */}
     </mesh>
   )
 }
