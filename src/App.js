@@ -86,8 +86,6 @@ function DescriptionTextMesh(props) {
   })
 
 
-
-
   // parse JSON file with Three
   const font = new THREE.FontLoader().parse(JetBrains_Mono_Regular);
 
