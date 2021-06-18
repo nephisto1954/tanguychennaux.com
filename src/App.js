@@ -1,5 +1,5 @@
 import React, {useRef, Suspense} from 'react';
-import { Canvas, useFrame, useLoader} from '@react-three/fiber';
+import { Canvas, useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
