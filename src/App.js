@@ -182,11 +182,9 @@ function Virus() {
       )
     })
   return(
-    <>
       <mesh position={[-3, 400, -500]} ref={mesh}>
           {items}
       </mesh>
-    </>
 )}
 
 export default function App() {
