@@ -3,9 +3,12 @@ import { Canvas, useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
+import useMeasure from 'react-use-measure'
+import { ResizeObserver } from '@juggle/resize-observer'
+
 import './App.css'
 
-import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere} from "@react-three/drei";
+import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, OrbitControls} from "@react-three/drei";
 
 import LowPoly from './Low-poly-landscape'
 
@@ -16,13 +19,6 @@ import LowPoly from './Low-poly-landscape'
   width: window.innerWidth,
   height: window.innerHeight
 }
-
-window.addEventListener('resize', () =>
-{
-  // Update sizes
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
-})
 
 
 function TitleTextMesh(props) {
@@ -196,8 +192,10 @@ function Virus() {
 )}
 
 export default function App() {
+  const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
+
   return (
-    <Canvas shadow={true}>  
+    <Canvas shadow={true} id="TanguyChennaux" ref={ref}>  
       <Sky
         distance={450000} // Camera distance (default=450000)
         sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)
@@ -212,6 +210,7 @@ export default function App() {
         {/*An point light, basically the same as directional. This one points from under */}
         <pointLight position={[10, -100, 25]} intensity={0.5} />
         <OrthographicCamera position={[0,-100,-50]} fov={10} aspect={sizes.width/sizes.height} near={1} far={200}>
+          <OrbitControls/>
           <TitleTextMesh />
           <DescriptionTextMesh />
           <Scene />

@@ -7,7 +7,7 @@ import { useGLTF} from '@react-three/drei'
 
 export default function LowPoly(props) {
   const group = useRef()
-  const { nodes, materials } = useGLTF('/low-poly-landscape.glb')
+  const { nodes, materials } = new useGLTF('/low-poly-landscape.glb')
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh geometry={nodes.Landscape_1.geometry} material={materials.grass} />
@@ -18,4 +18,4 @@ export default function LowPoly(props) {
   )
 }
 
-useGLTF.preload('../public/low-poly-landscape.glb')
+// useGLTF.preload('../public/low-poly-landscape.glb')
