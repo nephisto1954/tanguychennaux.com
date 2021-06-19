@@ -25,6 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "set \"INLINE_RUNTIME_CHUNK=false\"&& react-scripts build",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "deploy": "yarn build && aws s3 cp build/ s3://tanguychennaux.com --recursive "
   },
