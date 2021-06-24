@@ -6,19 +6,6 @@ import '@testing-library/jest-dom';
 
 import { JSDOM } from 'jsdom';
 
-let windowSpy: any;
-beforeEach(() => {
-    windowSpy = jest.spyOn(global as any, 'window', 'get');
-});
-afterEach(() => {
-    windowSpy.mockRestore();
-});
+const { window } = new JSDOM(`...`);
 
-describe('', () => {
-    it ('', () => {
-        const { window } = new JSDOM();
-        windowSpy.mockImplementation(() => window);
-        // now you have `window` in test environment
-    });
-});
 window.URL.createObjectURL = function() {};
