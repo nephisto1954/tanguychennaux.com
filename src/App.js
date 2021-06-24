@@ -210,6 +210,17 @@ export default function App() {
           <DescriptionTextMesh />
           <Scene />
           <Virus />
+
+          <mesh>
+            <boxBufferGeometry args={[2, 2]} />
+            <meshStandardMaterial
+              args={[
+                {
+                  color: 0x0000ff,
+                },
+              ]}
+            />
+          </mesh>
         </OrthographicCamera>
       </Suspense>
     </Canvas>
