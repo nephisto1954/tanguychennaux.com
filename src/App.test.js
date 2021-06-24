@@ -15,12 +15,12 @@ const Mesh = () => {
   )
 }
 
-const renderer = await ReactThreeTestRenderer.create(<Mesh />)
+const renderer = ReactThreeTestRenderer.create(<Mesh />)
 
 expect(renderer.scene.children[0].instance.rotation.x).toEqual(0)
 
-await ReactThreeTestRenderer.act(async () => {
-  await renderer.advanceFrames(2, 1)
+ReactThreeTestRenderer.act(() => {
+  renderer.advanceFrames(2, 1)
 })
 
 expect(renderer.scene.children[0].instance.rotation.x).toEqual(2)
