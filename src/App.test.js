@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactThreeTestRenderer from 'react-three-test-renderer'
+import ReactThreeTestRenderer from '@react-three/test-renderer'
 
 const Mesh = () => {
   const meshRef = React.useRef()
