@@ -14,5 +14,5 @@ const renderer = ReactThreeTestRenderer.create(
   </mesh>,
 )
 
-// assertions using the TestInstance & Scene Graph
-console.log(renderer.toGraph())
+// // assertions using the TestInstance & Scene Graph
+// console.log(renderer.toGraph())
