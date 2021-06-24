@@ -17,10 +17,10 @@ const Mesh = () => {
 
 const renderer = ReactThreeTestRenderer.create(<Mesh />)
 
-expect(renderer.scene.children[0].instance.rotation.x).toEqual(0)
+// expect(renderer.scene.children[0].instance.rotation.x).toEqual(0)
 
 ReactThreeTestRenderer.act(() => {
   renderer.advanceFrames(2, 1)
 })
 
-expect(renderer.scene.children[0].instance.rotation.x).toEqual(2)
+// expect(renderer.scene.children[0].instance.rotation.x).toEqual(2)
