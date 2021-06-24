@@ -3,8 +3,6 @@ import { Canvas, useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
-import useMeasure from 'react-use-measure'
-import { ResizeObserver } from '@juggle/resize-observer'
 
 import './App.css'
 
@@ -93,7 +91,7 @@ function DescriptionTextMesh(props) {
     I am a Junior Front-End Developer
     looking for his next role, 
     preferably involving 3D 
-    technologies (three and Blender)
+    technologies (three and Blender).
   `
 
   // configure font geometry
@@ -187,10 +185,9 @@ function Virus() {
 )}
 
 export default function App() {
-  const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
 
   return (
-    <Canvas shadow={true} id="TanguyChennaux" ref={ref}>  
+    <Canvas shadow={true} id="TanguyChennaux">  
       <Sky
         distance={450000} // Camera distance (default=450000)
         sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)
