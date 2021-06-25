@@ -8,7 +8,7 @@ import { ResizeObserver } from '@juggle/resize-observer';
 
 import './App.css'
 
-import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Html, useProgress} from "@react-three/drei";
+import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Html, useProgress} from "@react-three/drei";
 
 import LowPoly from './Low-poly-landscape'
 
