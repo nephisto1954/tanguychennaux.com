@@ -5,6 +5,6 @@ import App from './App';
 
 test('renders the Canvas', () => {
   render(<App />);
-  const eins = screen.findAllByText('Tanguy Chennaux');
-  expect(eins).toBeTruthy();
+  const canvas = screen.findByText('Tanguy Chennaux');
+  expect(canvas).toBeTruthy();
 });
