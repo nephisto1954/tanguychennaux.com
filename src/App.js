@@ -8,7 +8,7 @@ import { ResizeObserver } from '@juggle/resize-observer';
 
 import './App.css'
 
-import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, OrbitControls} from "@react-three/drei";
+import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, OrbitControls, Html, useProgress} from "@react-three/drei";
 
 import LowPoly from './Low-poly-landscape'
 
@@ -186,10 +186,14 @@ function Scene(){
 //       </mesh>
 // )}
 
+function Loader() {
+  const { progress } = useProgress()
+  return <Html center>{progress} % loaded</Html>
+}
+
 export default function App() {
 
   return (
-    <>
     <Canvas shadow={true} resize={{ polyfill: ResizeObserver }}>  
       <Sky
         distance={450000} // Camera distance (default=450000)
@@ -197,7 +201,7 @@ export default function App() {
         inclination={0.2} // Sun elevation angle from 0 to 1 (default=0)
         azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
       />
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loader />}>
               {/*An ambient light that creates a soft light against the object */}
         <ambientLight intensity={0.25} />
         {/*An directional light which aims form the given position */}
@@ -212,7 +216,5 @@ export default function App() {
         </OrthographicCamera>
       </Suspense>
     </Canvas>
-    <Loader dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`}/>
-    </>
   );
 }
