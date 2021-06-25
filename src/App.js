@@ -189,7 +189,7 @@ function Virus() {
 export default function App() {
 
   return (
-    <Canvas shadow={true} id="TanguyChennaux" resize={{ polyfill: ResizeObserver }}>  
+    <Canvas shadow={true} resize={{ polyfill: ResizeObserver }}>  
       <Sky
         distance={450000} // Camera distance (default=450000)
         sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)
