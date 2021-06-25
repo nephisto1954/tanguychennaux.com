@@ -143,48 +143,48 @@ function Scene(){
 }
 
 
-function Virus() {
-  const mesh = useRef(null)
+// function Virus() {
+//   const mesh = useRef(null)
 
-  const clock = new THREE.Clock();
+//   const clock = new THREE.Clock();
 
-  useFrame(() => {
-    const a = clock.getElapsedTime()
-    mesh.current.geometry.center()
-    mesh.current.rotation.x += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.rotation.y += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.rotation.z += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.position.x += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.position.y += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.position.z += (Math.sin(a) *  Math.cos(a)) * 0.0005
+//   useFrame(() => {
+//     const a = clock.getElapsedTime()
+//     mesh.current.geometry.center()
+//     mesh.current.rotation.x += (Math.sin(a) *  Math.cos(a)) * 0.0005
+//     mesh.current.rotation.y += (Math.sin(a) *  Math.cos(a)) * 0.0005
+//     mesh.current.rotation.z += (Math.sin(a) *  Math.cos(a)) * 0.0005
+//     mesh.current.position.x += (Math.sin(a) *  Math.cos(a)) * 0.0005
+//     mesh.current.position.y += (Math.sin(a) *  Math.cos(a)) * 0.0005
+//     mesh.current.position.z += (Math.sin(a) *  Math.cos(a)) * 0.0005
 
-    // mesh.current.position.set(180, -100, -100)
-  })
+//     // mesh.current.position.set(180, -100, -100)
+//   })
 
 
-  const copyArray = new Array(100).fill()
-  console.log(copyArray);
-  const items=copyArray.map((j, i) => {
-    const x = (Math.random(i) * i * Math.sin(i) / Math.cos(i)) * i
-    const y = Math.sin(i) + Math.cos(i) * 10
-    const z = Math.random(i) * i * Math.sin(i) - Math.cos(i) / 10
-    return (
-      <Sphere visible key={i} position={[-x, -y, -z]} args={[x/4, y/2, z/1000]}>
-        <MeshDistortMaterial
-            color="#00A38D"
-            attach="material"
-            distort={1} // Strength, 0 disables the effect (default=1)
-            speed={1} // Speed (default=1)
-            roughness={1}
-        />
-      </Sphere>
-      )
-    })
-  return(
-      <mesh position={[-3, 400, -500]} ref={mesh}>
-          {items}
-      </mesh>
-)}
+//   const copyArray = new Array(100).fill()
+//   console.log(copyArray);
+//   const items=copyArray.map((j, i) => {
+//     const x = (Math.random(i) * i * Math.sin(i) / Math.cos(i)) * i
+//     const y = Math.sin(i) + Math.cos(i) * 10
+//     const z = Math.random(i) * i * Math.sin(i) - Math.cos(i) / 10
+//     return (
+//       <Sphere visible key={i} position={[-x, -y, -z]} args={[x/4, y/2, z/1000]}>
+//         <MeshDistortMaterial
+//             color="#00A38D"
+//             attach="material"
+//             distort={1} // Strength, 0 disables the effect (default=1)
+//             speed={1} // Speed (default=1)
+//             roughness={1}
+//         />
+//       </Sphere>
+//       )
+//     })
+//   return(
+//       <mesh position={[-3, 400, -500]} ref={mesh}>
+//           {items}
+//       </mesh>
+// )}
 
 export default function App() {
 
@@ -208,7 +208,6 @@ export default function App() {
           <TitleTextMesh />
           <DescriptionTextMesh />
           <Scene />
-          <Virus />
         </OrthographicCamera>
       </Suspense>
     </Canvas>
