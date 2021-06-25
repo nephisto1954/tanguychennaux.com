@@ -207,7 +207,7 @@ export default function App() {
           <OrbitControls/>
           <TitleTextMesh />
           <DescriptionTextMesh />
-          <Scene />
+          {/* <Scene /> */}
           <Virus />
         </OrthographicCamera>
       </Suspense>
