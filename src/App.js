@@ -4,6 +4,8 @@ import * as THREE from 'three';
 import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
 
+import { ResizeObserver } from '@juggle/resize-observer';
+
 import './App.css'
 
 import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, OrbitControls} from "@react-three/drei";
@@ -187,7 +189,7 @@ function Virus() {
 export default function App() {
 
   return (
-    <Canvas shadow={true} id="TanguyChennaux">  
+    <Canvas shadow={true} id="TanguyChennaux" resize={{ polyfill: ResizeObserver }}>  
       <Sky
         distance={450000} // Camera distance (default=450000)
         sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)

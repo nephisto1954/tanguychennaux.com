@@ -18,7 +18,7 @@
     "react": "^17.0.2",
     "react-dat-gui": "^4.1.1",
     "react-dom": "^17.0.2",
-    "react-scripts": "^1.1.5",
+    "react-scripts": "^4.0.3",
     "react-spring": "^9.1.2",
     "three": "^0.129.0",
     "troika-three-text": "^0.42.0",
