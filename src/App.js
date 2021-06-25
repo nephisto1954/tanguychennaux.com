@@ -189,6 +189,7 @@ function Scene(){
 export default function App() {
 
   return (
+    <>
     <Canvas shadow={true} resize={{ polyfill: ResizeObserver }}>  
       <Sky
         distance={450000} // Camera distance (default=450000)
@@ -211,5 +212,7 @@ export default function App() {
         </OrthographicCamera>
       </Suspense>
     </Canvas>
+    <Loader dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`}/>
+    </>
   );
 }
