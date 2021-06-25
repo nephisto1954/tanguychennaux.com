@@ -93,7 +93,7 @@ function DescriptionTextMesh(props) {
     I am a Junior Front-End Developer
     looking for his next role, 
     preferably involving 3D 
-    technologies (three and Blender)...
+    technologies (three and Blender).
   `
 
   // configure font geometry

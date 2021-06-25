@@ -18,4 +18,4 @@ export default function LowPoly(props) {
   )
 }
 
-// useGLTF.preload('../public/low-poly-landscape.glb')
+useGLTF.preload('../public/low-poly-landscape.gltf')
