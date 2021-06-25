@@ -93,7 +93,7 @@ function DescriptionTextMesh(props) {
     I am a Junior Front-End Developer
     looking for his next role, 
     preferably involving 3D 
-    technologies (three and Blender).
+    technologies (three and Blender)...
   `
 
   // configure font geometry
@@ -194,7 +194,7 @@ function Loader() {
 export default function App() {
 
   return (
-    <Canvas shadow={true} resize={{ polyfill: ResizeObserver }}>  
+    <Canvas mode="concurrent" shadow={true} resize={{ polyfill: ResizeObserver }}>  
       <Sky
         distance={450000} // Camera distance (default=450000)
         sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)
