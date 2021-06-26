@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Html, useProgress} from "@react-three/drei";
+import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Html, useProgress, OrbitControls} from "@react-three/drei";
 
 import state from "./store"
 import './App.css'
@@ -169,7 +169,7 @@ function Scene(){
 
   const mesh = useRef(null)
   const { mobile } = useBlock()
-  
+  const notMobile = !mobile
 
   // const clock = new THREE.Clock();
 
@@ -189,6 +189,7 @@ function Scene(){
   return (
     <mesh position={[0, 0, 0]} ref={mesh} castShadow
     receiveShadow>
+        {notMobile && <OrbitControls/>}
         <LowPoly />
     </mesh>
   )
@@ -268,7 +269,6 @@ export default function App() {
           {/*An point light, basically the same as directional. This one points from under */}
           <pointLight position={[10, -100, 25]} intensity={0.5} />
           <OrthographicCamera position={[0,-100,-50]} fov={10} aspect={sizes.width/sizes.height} near={1} far={200}>
-            {/* <OrbitControls/> */}
             <TitleTextMesh />
             <DescriptionTextMesh />
             <Scene />
