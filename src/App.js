@@ -1,28 +1,57 @@
-import React, {useRef, Suspense} from 'react';
-import { Canvas, useFrame} from '@react-three/fiber';
+import React, {useRef, Suspense, useEffect, useContext, createContext} from 'react';
+import { Canvas, useFrame, useThree} from '@react-three/fiber';
 import * as THREE from 'three';
 import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
-
 import { ResizeObserver } from '@juggle/resize-observer';
-
-import './App.css'
-
 import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Html, useProgress} from "@react-three/drei";
 
-import LowPoly from './Low-poly-landscape'
+import state from "./store"
+import './App.css'
+import LowPoly from './assets/models/Low-poly-landscape'
+
+
+const offsetContext = createContext(0)
+
 
 /**
  * Sizes
  */
- const sizes = {
+const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
+}
+
+function useBlock() {
+  const { sections, pages, zoom } = state
+  const { size, viewport } = useThree()
+  const offset = useContext(offsetContext)
+  const viewportWidth = viewport.width
+  const viewportHeight = viewport.height
+  const canvasWidth = viewportWidth / zoom
+  const canvasHeight = viewportHeight / zoom
+  const mobile = size.width < 700
+  const margin = canvasWidth * (mobile ? 0.2 : 0.1)
+  const contentMaxWidth = canvasWidth * (mobile ? 0.8 : 0.6)
+  const sectionHeight = canvasHeight * ((pages - 1) / (sections - 1))
+  return {
+    viewport,
+    offset,
+    viewportWidth,
+    viewportHeight,
+    canvasWidth,
+    canvasHeight,
+    mobile,
+    margin,
+    contentMaxWidth,
+    sectionHeight
+  }
 }
 
 
 function TitleTextMesh(props) {
   const mesh = useRef(null)
+  const {mobile} = useBlock()
 
   const clock = new THREE.Clock();
 
@@ -31,15 +60,23 @@ function TitleTextMesh(props) {
     mesh.current.scale.set(15,15,a*0.5)
     mesh.current.geometry.center()
 
+
+
     if ((mesh.current.scale.z <0.85 )) {
       mesh.current.position.z += (Math.sin(a * 2) -  Math.cos(a * 2)) * 0.05
       mesh.current.rotation.x += (Math.sin(a * 2) +  Math.cos(a * 2))
       mesh.current.rotation.y += (Math.sin(a * 2) -  Math.cos(a * 2))
       mesh.current.rotation.z += (Math.sin(a * 2) /  Math.cos(a * 2))
     } else {
-      mesh.current.position.set(15, 120, -100)
+
       mesh.current.rotation.set(0,0,0)
-      mesh.current.scale.set(0.9,0.9,0.9)
+      if (mobile){
+        mesh.current.position.set(15, 150, -100)
+        mesh.current.scale.set(0.2,0.2,0.2)
+      } else {
+        mesh.current.position.set(15, 120, -100)
+        mesh.current.scale.set(0.9,0.9,0.9)
+      }
     }
   })
 
@@ -76,13 +113,21 @@ function TitleTextMesh(props) {
 
 function DescriptionTextMesh(props) {
   const mesh = useRef(null)
+  const {mobile} = useBlock()
 
   // const clock = new THREE.Clock();
 
   useFrame(() => {
-    mesh.current.position.set(-100, 80, -20)
     mesh.current.rotation.set(0,0,0)
-    mesh.current.scale.set(0.2,0.2,0.2)
+    
+    if (mobile){
+      mesh.current.scale.set(0.07,0.07,0.2)
+      mesh.current.position.set(-10, 112, 0)
+    } else {
+      mesh.current.position.set(-100, 80, -20)
+      mesh.current.scale.set(0.2,0.2,0.2)
+    }
+
   })
 
 
@@ -123,10 +168,17 @@ function DescriptionTextMesh(props) {
 function Scene(){
 
   const mesh = useRef(null)
+  const { mobile } = useBlock()
+  
 
   // const clock = new THREE.Clock();
 
   useFrame(() => {
+
+    if (mobile){
+      mesh.current.scale.set(100,100,100)
+    } 
+
     // mesh.current.geometry.center()
     mesh.current.scale.set(1000, 1000, 1000)
     mesh.current.rotation.set(0,0,0)
@@ -141,6 +193,8 @@ function Scene(){
     </mesh>
   )
 }
+
+
 
 
 function Virus() {
@@ -193,29 +247,38 @@ function Loader() {
 
 export default function App() {
 
+  const scrollArea = useRef()
+  const onScroll = e => (state.top.current = e.target.scrollTop)
+  useEffect(() => void onScroll({ target: scrollArea.current }), [])
+
   return (
-    <Canvas mode="concurrent" shadow={true} resize={{ polyfill: ResizeObserver }}>  
-      <Sky
-        distance={450000} // Camera distance (default=450000)
-        sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)
-        inclination={0.2} // Sun elevation angle from 0 to 1 (default=0)
-        azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
-      />
-      <Suspense fallback={<Loader />}>
-              {/*An ambient light that creates a soft light against the object */}
-        <ambientLight intensity={0.25} />
-        {/*An directional light which aims form the given position */}
-        <directionalLight position={[100, 100, 50]} intensity={1} />
-        {/*An point light, basically the same as directional. This one points from under */}
-        <pointLight position={[10, -100, 25]} intensity={0.5} />
-        <OrthographicCamera position={[0,-100,-50]} fov={10} aspect={sizes.width/sizes.height} near={1} far={200}>
-          {/* <OrbitControls/> */}
-          <TitleTextMesh />
-          <DescriptionTextMesh />
-          <Scene />
-          <Virus />
-        </OrthographicCamera>
-      </Suspense>
-    </Canvas>
+    <>
+      <Canvas mode="concurrent" shadow={true} resize={{ polyfill: ResizeObserver }}>  
+        <Sky
+          distance={450000} // Camera distance (default=450000)
+          sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)
+          inclination={0.2} // Sun elevation angle from 0 to 1 (default=0)
+          azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
+        />
+        <Suspense fallback={<Loader />}>
+                {/*An ambient light that creates a soft light against the object */}
+          <ambientLight intensity={0.25} />
+          {/*An directional light which aims form the given position */}
+          <directionalLight position={[100, 100, 50]} intensity={1} />
+          {/*An point light, basically the same as directional. This one points from under */}
+          <pointLight position={[10, -100, 25]} intensity={0.5} />
+          <OrthographicCamera position={[0,-100,-50]} fov={10} aspect={sizes.width/sizes.height} near={1} far={200}>
+            {/* <OrbitControls/> */}
+            <TitleTextMesh />
+            <DescriptionTextMesh />
+            <Scene />
+            <Virus />
+          </OrthographicCamera>
+        </Suspense>
+      </Canvas>
+      <div ref={scrollArea} onScroll={onScroll}>
+        <div style={{ height: `${state.pages * 100}vh` }} />
+      </div>
+    </>
   );
 }
