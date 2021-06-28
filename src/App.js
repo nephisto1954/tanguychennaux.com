@@ -1,5 +1,5 @@
 import React, {useRef, Suspense, useEffect} from 'react';
-import { Canvas, useFrame, meshStandardMaterial} from '@react-three/fiber';
+import { Canvas, useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import Auber_SemiBold_Regular from './assets/fonts/Auber_SemiBold_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
