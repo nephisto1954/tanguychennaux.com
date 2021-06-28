@@ -4,9 +4,9 @@ import * as THREE from 'three';
 import Auber_SemiBold_Regular from './assets/fonts/Auber_SemiBold_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { Sky, OrthographicCamera, MeshDistortMaterial, Sphere, Html, useProgress, OrbitControls, Environment} from "@react-three/drei";
+import { Sky, OrthographicCamera, MeshDistortMaterial, Html, useProgress, Environment} from "@react-three/drei";
 
-import { Block, useBlock } from "./components/block"
+import { useBlock } from "./components/block"
 import state from "./store"
 import './App.css'
 import LowPoly from './assets/models/Low-poly-landscape'
@@ -18,9 +18,6 @@ const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }
-
-
-
 
 function TitleTextMesh(props) {
   const mesh = useRef(null)
@@ -138,38 +135,11 @@ function DescriptionTextMesh(props) {
   )
 }
 
-
-function Plane({...props }) {
-  return (
-    <mesh {...props} receiveShadow>
-      <planeGeometry />
-      <meshBasicMaterial />
-    </mesh>
-  )
-}
-
-
-function Content({ left, children }) {
-  const { contentMaxWidth, canvasWidth, margin, mobile } = useBlock()
-  const aspect = 1.75
-  const alignRight = (canvasWidth - contentMaxWidth - margin) / 2
-
-  return (
-    <group position={[alignRight * (left ? -1 : 1), 0, 0]}>
-      <Plane scale={[contentMaxWidth, contentMaxWidth / aspect, 1]} color="red" />
-      {children}
-    </group>
-  )
-}
-
 function Scene(){
 
   const mesh = useRef(null)
 
-  const { contentMaxWidth, canvasWidth, margin, mobile } = useBlock()
-  const pixelWidth = contentMaxWidth * state.zoom
-  const aspect = 1.75
-  const notMobile = !mobile
+  const { mobile } = useBlock()
 
   // const clock = new THREE.Clock();
 
@@ -190,68 +160,10 @@ function Scene(){
     <mesh position={[0, 0, 0]} ref={mesh} castShadow
     receiveShadow>
         {/* {notMobile && <OrbitControls/>} */}
-        <Block>
-          <Content left >
-            <Html style={{ width: 100, textAlign: "left" }} position={[0,-100,200]}>
-              The substance can take you to heaven but it can also take you to hell.
-            </Html>
-          </Content>
-          <Content left >
-            <Html style={{ width: 100, textAlign: "top" }} position={[0,-250,200]}>
-              ewrbewrfqervqervwervwervervec
-            </Html>
-          </Content>
-          <LowPoly />
-        </Block>
+        <LowPoly />
     </mesh>
   )
 }
-
-
-
-
-function Virus() {
-  const mesh = useRef(null)
-
-  const clock = new THREE.Clock();
-
-  useFrame(() => {
-    const a = clock.getElapsedTime()
-    mesh.current.geometry.center()
-    mesh.current.rotation.x += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.rotation.y += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.rotation.z += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.position.x += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.position.y += (Math.sin(a) *  Math.cos(a)) * 0.0005
-    mesh.current.position.z += (Math.sin(a) *  Math.cos(a)) * 0.0005
-
-    // mesh.current.position.set(180, -100, -100)
-  })
-
-
-  const copyArray = new Array(100).fill()
-  console.log(copyArray);
-  const items=copyArray.map((j, i) => {
-    const x = (Math.random(i) * i * Math.sin(i) / Math.cos(i)) * i
-    const y = Math.sin(i) + Math.cos(i) * 10
-    const z = Math.random(i) * i * Math.sin(i) - Math.cos(i) / 10
-    return (
-      <Sphere visible key={i} position={[-x, -y, -z]} args={[x/4, y/2, z/1000]}>
-        <MeshDistortMaterial
-            color="#ffffff"
-            attach="material"
-            distort={1} // Strength, 0 disables the effect (default=1)
-            speed={1} // Speed (default=1)
-            roughness={1}
-        />
-      </Sphere>
-      )
-    })
-  return(
-      <mesh position={[-3, 400, -500]} ref={mesh} receiveShadow>
-          {items}
-      </mesh>
-)}
 
 function Loader() {
   const { progress } = useProgress()
