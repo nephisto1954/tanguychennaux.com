@@ -1,18 +1,15 @@
-import React, {useRef, Suspense, useEffect, useContext, createContext} from 'react';
-import { Canvas, useFrame, useThree} from '@react-three/fiber';
+import React, {useRef, Suspense, useEffect} from 'react';
+import { Canvas, useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Html, useProgress, OrbitControls} from "@react-three/drei";
 
+import { Block, useBlock } from "./components/block"
 import state from "./store"
 import './App.css'
 import LowPoly from './assets/models/Low-poly-landscape'
-
-
-const offsetContext = createContext(0)
-
 
 /**
  * Sizes
@@ -22,31 +19,7 @@ const sizes = {
   height: window.innerHeight
 }
 
-function useBlock() {
-  const { sections, pages, zoom } = state
-  const { size, viewport } = useThree()
-  const offset = useContext(offsetContext)
-  const viewportWidth = viewport.width
-  const viewportHeight = viewport.height
-  const canvasWidth = viewportWidth / zoom
-  const canvasHeight = viewportHeight / zoom
-  const mobile = size.width < 700
-  const margin = canvasWidth * (mobile ? 0.2 : 0.1)
-  const contentMaxWidth = canvasWidth * (mobile ? 0.8 : 0.6)
-  const sectionHeight = canvasHeight * ((pages - 1) / (sections - 1))
-  return {
-    viewport,
-    offset,
-    viewportWidth,
-    viewportHeight,
-    canvasWidth,
-    canvasHeight,
-    mobile,
-    margin,
-    contentMaxWidth,
-    sectionHeight
-  }
-}
+
 
 
 function TitleTextMesh(props) {
@@ -135,8 +108,8 @@ function DescriptionTextMesh(props) {
   const font = new THREE.FontLoader().parse(JetBrains_Mono_Regular);
 
   const text = `
-    I am a Junior Front-End Developer
-    looking for his next role, 
+    I am a Front-End Developer
+    looking for my next role, 
     preferably involving 3D 
     technologies (three and Blender).
   `
@@ -165,10 +138,37 @@ function DescriptionTextMesh(props) {
   )
 }
 
+
+function Plane({ color = "white", ...props }) {
+  return (
+    <mesh {...props}>
+      <planeGeometry />
+      <meshBasicMaterial color={color} />
+    </mesh>
+  )
+}
+
+
+function Content({ left, children }) {
+  const { contentMaxWidth, canvasWidth, margin, mobile } = useBlock()
+  const aspect = 1.75
+  const alignRight = (canvasWidth - contentMaxWidth - margin) / 2
+
+  return (
+    <group position={[alignRight * (left ? -1 : 1), 0, 0]}>
+      <Plane scale={[contentMaxWidth, contentMaxWidth / aspect, 1]} color="#bfe2ca" />
+      {children}
+    </group>
+  )
+}
+
 function Scene(){
 
   const mesh = useRef(null)
-  const { mobile } = useBlock()
+
+  const { contentMaxWidth, canvasWidth, margin, mobile } = useBlock()
+  const pixelWidth = contentMaxWidth * state.zoom
+  const aspect = 1.75
   const notMobile = !mobile
 
   // const clock = new THREE.Clock();
@@ -190,6 +190,21 @@ function Scene(){
     <mesh position={[0, 0, 0]} ref={mesh} castShadow
     receiveShadow>
         {notMobile && <OrbitControls/>}
+        <Block factor={1.5} offset={0}>
+          <Content left style={{ width: pixelWidth / (mobile ? 1 : 2), textAlign: "left" }} position={[-contentMaxWidth / 2, -contentMaxWidth / 2 / aspect - 0.4, 1]}>
+            <Html >
+              The substance can take you to heaven but it can also take you to hell.
+            </Html>
+          </Content>
+        </Block>
+        {/* Second section */}
+        <Block factor={2.0} offset={1}>
+          <Content left>
+            <Html style={{ width: pixelWidth / (mobile ? 1 : 2), textAlign: "left" }} position={[-contentMaxWidth / 2, -contentMaxWidth / 2 / aspect - 0.4, 1]}>
+              The substance can take you to heaven but it can also take you to hell.
+            </Html>
+          </Content>
+        </Block>
         <LowPoly />
     </mesh>
   )
@@ -251,6 +266,7 @@ export default function App() {
   const scrollArea = useRef()
   const onScroll = e => (state.top.current = e.target.scrollTop)
   useEffect(() => void onScroll({ target: scrollArea.current }), [])
+
 
   return (
     <>
