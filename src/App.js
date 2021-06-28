@@ -1,10 +1,10 @@
 import React, {useRef, Suspense, useEffect} from 'react';
-import { Canvas, useFrame} from '@react-three/fiber';
+import { Canvas, useFrame, meshStandardMaterial} from '@react-three/fiber';
 import * as THREE from 'three';
-import Bearpaw_Regular from './assets/fonts/Bearpaw_Regular';
+import Auber_SemiBold_Regular from './assets/fonts/Auber_SemiBold_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { Sky, OrthographicCamera, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Html, useProgress, OrbitControls} from "@react-three/drei";
+import { Sky, OrthographicCamera, MeshDistortMaterial, Sphere, Html, useProgress, OrbitControls, Environment} from "@react-three/drei";
 
 import { Block, useBlock } from "./components/block"
 import state from "./store"
@@ -44,27 +44,27 @@ function TitleTextMesh(props) {
 
       mesh.current.rotation.set(0,0,0)
       if (mobile){
-        mesh.current.position.set(15, 150, -100)
-        mesh.current.scale.set(0.2,0.2,0.2)
+        mesh.current.position.set(0, 250, 200)
+        mesh.current.scale.set(0.5,0.5,0.5)
       } else {
-        mesh.current.position.set(15, 120, -100)
-        mesh.current.scale.set(0.9,0.9,0.9)
+        mesh.current.position.set(0, 280, 100)
+        mesh.current.scale.set(1.5,1.5,1.5)
       }
     }
   })
 
 
   // parse JSON file with Three
-  const font = new THREE.FontLoader().parse(Bearpaw_Regular);
+  const font = new THREE.FontLoader().parse(Auber_SemiBold_Regular);
 
   const text = `Tanguy Chennaux`
 
   // configure font geometry
   const textOptions = {
     font,
-    size: 50,
-    height: 2,
-    color:"#00A38D"
+    size: 30,
+    height: 8,
+    color:"#048091"
   };
 
   // mesh position={[10, 0, -100]} 
@@ -73,9 +73,9 @@ function TitleTextMesh(props) {
     <mesh position={[0, 0, 0]} ref={mesh} castShadow
     receiveShadow>
       <textGeometry attach='geometry' args={[text, textOptions]} />
-      <MeshWobbleMaterial
+      <meshStandardMaterial
           attach="material"
-          color="#00A38D"
+          color="#88ABC2"
           factor={0.01} // Strength, 0 disables the effect (default=1)
           speed={0.02} // Speed (default=1)
           roughness={1}
@@ -94,11 +94,11 @@ function DescriptionTextMesh(props) {
     mesh.current.rotation.set(0,0,0)
     
     if (mobile){
-      mesh.current.scale.set(0.07,0.07,0.2)
-      mesh.current.position.set(-10, 112, 0)
+      mesh.current.scale.set(0.5,0.5,0.5)
+      mesh.current.position.set(-80, 220, 200)
     } else {
-      mesh.current.position.set(-100, 80, -20)
-      mesh.current.scale.set(0.2,0.2,0.2)
+      mesh.current.position.set(-150, 200, 200)
+      mesh.current.scale.set(0.5,0.5,0.5)
     }
 
   })
@@ -117,7 +117,7 @@ function DescriptionTextMesh(props) {
   // configure font geometry
   const textOptions = {
     font,
-    size: 15,
+    size: 10,
     height: 1
   };
 
@@ -139,11 +139,11 @@ function DescriptionTextMesh(props) {
 }
 
 
-function Plane({ color = "white", ...props }) {
+function Plane({...props }) {
   return (
-    <mesh {...props}>
+    <mesh {...props} receiveShadow>
       <planeGeometry />
-      <meshBasicMaterial color={color} />
+      <meshBasicMaterial />
     </mesh>
   )
 }
@@ -156,7 +156,7 @@ function Content({ left, children }) {
 
   return (
     <group position={[alignRight * (left ? -1 : 1), 0, 0]}>
-      <Plane scale={[contentMaxWidth, contentMaxWidth / aspect, 1]} color="#bfe2ca" />
+      <Plane scale={[contentMaxWidth, contentMaxWidth / aspect, 1]} color="red" />
       {children}
     </group>
   )
@@ -181,7 +181,7 @@ function Scene(){
 
     // mesh.current.geometry.center()
     mesh.current.scale.set(1000, 1000, 1000)
-    mesh.current.rotation.set(0,0,0)
+    mesh.current.rotation.set(0,Math.PI,0)
     mesh.current.position.set(0, 0, -500)
   })
 
@@ -189,23 +189,20 @@ function Scene(){
   return (
     <mesh position={[0, 0, 0]} ref={mesh} castShadow
     receiveShadow>
-        {notMobile && <OrbitControls/>}
-        <Block factor={1.5} offset={0}>
-          <Content left style={{ width: pixelWidth / (mobile ? 1 : 2), textAlign: "left" }} position={[-contentMaxWidth / 2, -contentMaxWidth / 2 / aspect - 0.4, 1]}>
-            <Html >
+        {/* {notMobile && <OrbitControls/>} */}
+        <Block>
+          <Content left >
+            <Html style={{ width: 100, textAlign: "left" }} position={[0,-100,200]}>
               The substance can take you to heaven but it can also take you to hell.
             </Html>
           </Content>
-        </Block>
-        {/* Second section */}
-        <Block factor={2.0} offset={1}>
-          <Content left>
-            <Html style={{ width: pixelWidth / (mobile ? 1 : 2), textAlign: "left" }} position={[-contentMaxWidth / 2, -contentMaxWidth / 2 / aspect - 0.4, 1]}>
-              The substance can take you to heaven but it can also take you to hell.
+          <Content left >
+            <Html style={{ width: 100, textAlign: "top" }} position={[0,-250,200]}>
+              ewrbewrfqervqervwervwervervec
             </Html>
           </Content>
+          <LowPoly />
         </Block>
-        <LowPoly />
     </mesh>
   )
 }
@@ -241,7 +238,7 @@ function Virus() {
     return (
       <Sphere visible key={i} position={[-x, -y, -z]} args={[x/4, y/2, z/1000]}>
         <MeshDistortMaterial
-            color="#00A38D"
+            color="#ffffff"
             attach="material"
             distort={1} // Strength, 0 disables the effect (default=1)
             speed={1} // Speed (default=1)
@@ -251,7 +248,7 @@ function Virus() {
       )
     })
   return(
-      <mesh position={[-3, 400, -500]} ref={mesh}>
+      <mesh position={[-3, 400, -500]} ref={mesh} receiveShadow>
           {items}
       </mesh>
 )}
@@ -272,23 +269,24 @@ export default function App() {
     <>
       <Canvas mode="concurrent" shadow={true} resize={{ polyfill: ResizeObserver }}>  
         <Sky
-          distance={450000} // Camera distance (default=450000)
+          distance={20000} // Camera distance (default=450000)
           sunPosition={[0, 1, 0]} // Sun position normal (defaults to inclination and azimuth if not set)
           inclination={0.2} // Sun elevation angle from 0 to 1 (default=0)
           azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
+          rayleigh={0.5}
         />
         <Suspense fallback={<Loader />}>
                 {/*An ambient light that creates a soft light against the object */}
           <ambientLight intensity={0.25} />
           {/*An directional light which aims form the given position */}
-          <directionalLight position={[100, 100, 50]} intensity={1} />
+          <directionalLight position={[100, 100, -250]} intensity={1} />
           {/*An point light, basically the same as directional. This one points from under */}
-          <pointLight position={[10, -100, 25]} intensity={0.5} />
-          <OrthographicCamera position={[0,-100,-50]} fov={10} aspect={sizes.width/sizes.height} near={1} far={200}>
+          <pointLight position={[10, 200, -250]} intensity={0.5} />
+          <OrthographicCamera position={[0,-150,-400]} fov={10} aspect={sizes.width/sizes.height} near={0.01} far={5000}>
+            <Scene position={[10, 0, -450]}/>
             <TitleTextMesh />
             <DescriptionTextMesh />
-            <Scene />
-            <Virus />
+            <Environment preset={"sunset"} />
           </OrthographicCamera>
         </Suspense>
       </Canvas>
