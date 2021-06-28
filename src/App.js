@@ -4,10 +4,9 @@ import * as THREE from 'three';
 import Auber_SemiBold_Regular from './assets/fonts/Auber_SemiBold_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
 import { ResizeObserver } from '@juggle/resize-observer';
-import { Sky, OrthographicCamera, MeshDistortMaterial, Html, useProgress} from "@react-three/drei";
+import { Sky, OrthographicCamera, MeshDistortMaterial, Html, useProgress, Environment} from "@react-three/drei";
 
-import { useBlock } from "./components/Block"
-import Environment from './components/Environment'
+import { useBlock } from "./components/block"
 import state from "./store"
 import './App.css'
 import LowPoly from './assets/models/Low-poly-landscape'
@@ -199,7 +198,7 @@ export default function App() {
           <directionalLight position={[100, 100, -250]} intensity={1} />
           {/*An point light, basically the same as directional. This one points from under */}
           <pointLight position={[10, 200, -250]} intensity={0.5} />
-          <Environment />
+          <Environment preset={'sunset'}/>
           <OrthographicCamera position={[0,-150,-400]} fov={10} aspect={sizes.width/sizes.height} near={0.01} far={5000}>
             <Scene position={[10, 0, -450]}/>
             <TitleTextMesh />
