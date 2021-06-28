@@ -198,7 +198,8 @@ export default function App() {
           <directionalLight position={[100, 100, -250]} intensity={1} />
           {/*An point light, basically the same as directional. This one points from under */}
           <pointLight position={[10, 200, -250]} intensity={0.5} />
-          <Environment preset={'sunset'}/>
+          <fog attach="fog" args={['white', 0, 2000]} />
+          <Environment files="venice_sunset_1k.hdr" />
           <OrthographicCamera position={[0,-150,-400]} fov={10} aspect={sizes.width/sizes.height} near={0.01} far={5000}>
             <Scene position={[10, 0, -450]}/>
             <TitleTextMesh />
