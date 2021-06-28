@@ -5,13 +5,11 @@ import Auber_SemiBold_Regular from './assets/fonts/Auber_SemiBold_Regular';
 import JetBrains_Mono_Regular from './assets/fonts/JetBrains_Mono_Regular';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { Sky, OrthographicCamera, MeshDistortMaterial, Html, useProgress, Environment} from "@react-three/drei";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
 import { useBlock } from "./components/block"
 import state from "./store"
 import './App.css'
 import LowPoly from './assets/models/Low-poly-landscape'
-import HdrFile from './assets/hdri/venice_sunset_1k.hdr'
 
 
 /**
