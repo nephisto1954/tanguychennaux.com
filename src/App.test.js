@@ -1,10 +1,10 @@
 import 'jest-canvas-mock'
 import React from 'react'
 import { render, screen} from '@testing-library/react';
-import App from './App';
+import Mountain from './Mountain';
 
 test('renders the Canvas', () => {
-  render(<App />);
+  render(<Mountain />);
   const canvas = screen.findByText('Tanguy Chennaux');
   expect(canvas).toBeTruthy();
 });
